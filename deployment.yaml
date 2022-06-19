@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pushwf
+  labels:
+    name: "pushwf"
+spec:
+  replicas: 1
+  revisionHistoryLimits: 5
+  selector:
+    matchLabels:
+      app: pushwf
+  template:
+    metadata:
+      name: pushwf
+      labels:
+        name: pushwf
+    spec:
+      containers:
+        - image: pramodk05/push-workflow:latest
+          imagePullPolicy: Always
+          name: pushwf
+          ports:
+            - containerPort: 8500
+          LivenessProbe:
+            httpGet:
+              path: /
+              port: 8500
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
