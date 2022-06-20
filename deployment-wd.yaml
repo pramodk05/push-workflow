@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wd
+  namespace: default
+  labels:
+    name: "wd"
+  annotations:
+    keel.sh/policy: major
+    keel.sh/trigger: poll
+    keel.sh/pollSchedule: "@every 30s"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: "wd"
+      labels:
+        name: "wd"
+    spec:
+      containers:
+        - image: pramodk05/push-workflow:latest
+          imagePullPolicy: Always
+          name: "wd"
+          command: ["/bin/webhook-demo"]
+          ports:
+            - containerPort: 8090
+          LivenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8090
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
