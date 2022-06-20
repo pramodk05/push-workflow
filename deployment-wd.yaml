@@ -18,7 +18,7 @@ spec:
         name: "wd"
     spec:
       containers:
-        - image: pramodk05/push-workflow:latest
+        - image: pramodk05/push-workflow:1.0
           imagePullPolicy: Always
           name: "wd"
           command: ["/bin/webhook-demo"]
